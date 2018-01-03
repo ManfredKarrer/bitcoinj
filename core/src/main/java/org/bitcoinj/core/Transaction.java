@@ -716,16 +716,17 @@ public class Transaction extends ChildMessage {
             s.append("     ");
             s.append("out  ");
             try {
-                String scriptPubKeyStr = out.getScriptPubKey().toString();
+                Script scriptPubKey = out.getScriptPubKey();
+                String scriptPubKeyStr = scriptPubKey != null ? scriptPubKey.toString() : "";
                 s.append(!Strings.isNullOrEmpty(scriptPubKeyStr) ? scriptPubKeyStr : "<no scriptPubKey>");
                 s.append(" ");
                 s.append(out.getValue().toFriendlyString());
                 s.append(" (");
                 s.append(out.getValue());
                 s.append(") ScriptPubKey: ");
-                s.append(HEX.encode(scriptPubKey.getProgram()));
+                s.append(scriptPubKey != null ? HEX.encode(scriptPubKey.getProgram()) : "scriptPubKey is null");
                 s.append(" Address:");
-                s.append(scriptPubKey.getToAddress(params));
+                s.append(scriptPubKey != null ? scriptPubKey.getToAddress(params) : "scriptPubKey is null");
                 s.append(" ");
                 if (!out.isAvailableForSpending()) {
                     s.append(" Spent");
